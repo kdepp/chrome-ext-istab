@@ -210,8 +210,6 @@ const css = {
   })
 };
 
-const defaultImg = "";
-
 const ui = (function () {
   const ww    = clientWidth(document);
   const wh    = clientHeight(document);
@@ -236,7 +234,6 @@ const ui = (function () {
 
   const renderTabs = ({tabs, currentTabIndex}) => {
     removeChildren($inner);
-    console.log(tabs, currentTabIndex);
 
     _length = tabs.length;
     _tabs = tabs;
@@ -285,19 +282,13 @@ const ui = (function () {
       $inner.childNodes[i].className = '';
     }
 
-    console.log('locate', firstIndex, selectIndex);
-
     $inner.childNodes[selectIndex].className = 'kd-tab-on-0303';
   };
 
   const shiftTab = (isForward) => {
-    console.log('isForward', isForward);
-
     const move = isForward ? 1 : -1;
     const target = _selectIndex + move;
     let first;
-
-    console.log('target', target);
 
     if (target >= _length || target < 0) {
       return;
@@ -344,7 +335,6 @@ const ui = (function () {
 })();
 
 document.addEventListener('keydown', (e) => {
-  // console.log('down', e);
   if (!e.altKey)  return;
   const isForward = !e.shiftKey;
 

@@ -21,7 +21,6 @@ const extend = function () {
 };
 const capture = (windowId, tabId) => {
   chrome.tabs.captureVisibleTab((dataUrl) => {
-    console.log('windowId, tabId', windowId, tabId);
     tabImages[windowId] = tabImages[windowId] || {};
     tabImages[windowId][tabId] = dataUrl;
   });
@@ -40,7 +39,6 @@ const collectTabInfos = (windowId) => {
         imageData: tabImages[tab.windowId][tab.id]
       }));
 
-      console.log(ret);
       resolve(ret);
     });
   });
@@ -64,7 +62,6 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
       break;
     }
     case 'changeTab': {
-      console.log('changeTab', req.tabId);
       chrome.tabs.update(req.tabId, {active: true});
       break;
     }
@@ -72,5 +69,3 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
 
   return true;
 });
-
-console.log('hi from background..');
