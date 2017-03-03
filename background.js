@@ -52,8 +52,24 @@ chrome.tabs.onActiveChanged.addListener(function (tabId, selectInfo) {
 });
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
-  collectTabInfos()
-    .then(sendResponse);
+  if (!req.cmd) return;
+
+  switch (req.cmd) {
+    case 'tabs': {
+      collectTabInfos()
+        .then(tabs => {
+          var currentTabIndex = tabs.findIndex(t => t.tabId === sender.tab.id);
+          sendResponse({tabs, currentTabIndex});
+        });
+      break;
+    }
+    case 'changeTab': {
+      console.log('changeTab', req.tabId);
+      chrome.tabs.update(req.tabId, {active: true});
+      break;
+    }
+  }
+
   return true;
 });
 
